@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MyShop</string>
+    <string name="email_id">Email ID</string>
+    <string name="login">LOGIN</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="loginBTN">LOGIN</string>
+    <string name="register">Register</string>
+    <string name="don_t_have_an_account">Don\'t Have An Account?</string>
 </resources>
