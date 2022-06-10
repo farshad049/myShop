@@ -15,9 +15,7 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         _binding=FragmentLoginBinding.bind(view)
 
-        binding.tvRegister.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
-        }
+
 
 
 

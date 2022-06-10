@@ -14,9 +14,7 @@ class RegisterFragment:Fragment(R.layout.fragment_register) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentRegisterBinding.bind(view)
 
-        binding.tvLogin.setOnClickListener {
-            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-        }
+
 
         binding.BtnRegister.setOnClickListener {
             validateFields()
