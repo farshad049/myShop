@@ -5,10 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.databinding.FragmentRegisterBinding
+import com.google.android.material.snackbar.Snackbar
 
-class RegisterFragment:Fragment(R.layout.fragment_register) {
+class RegisterFragment:BaseFragment(R.layout.fragment_register) {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,24 +31,29 @@ class RegisterFragment:Fragment(R.layout.fragment_register) {
     //validate fields
     private fun validateFields():Boolean{
         return when{
-            binding.etEditFirstName.toString().trim().isEmpty() -> {
-                binding.etFirstName.error="* Required Field"
+            binding.etEditFirstName.text.toString().trim().isEmpty() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please enter name",Snackbar.LENGTH_LONG).show()
                 false}
-            binding.etEditLastName.toString().trim().isEmpty() -> {
-                binding.etEditLastName.error="* Required Field"
+            binding.etEditLastName.text.toString().trim().isEmpty() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please enter last name",Snackbar.LENGTH_LONG).show()
                 false}
-            binding.etEditEmail.toString().trim().isEmpty() -> {
-                binding.etEditEmail.error="* Required Field"
+            binding.etEditEmail.text.toString().trim().isEmpty() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please enter email",Snackbar.LENGTH_LONG).show()
                 false}
-            binding.etEditPassword.toString().trim().isEmpty() -> {
-                binding.etEditPassword.error="* Required Field"
+            binding.etEditPassword.text.toString().trim().isEmpty() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please enter password",Snackbar.LENGTH_LONG).show()
+
                 false}
-            binding.etEditConfirm.toString().trim().isEmpty() -> {
-                binding.etEditConfirm.error="* Required Field"
+            binding.etEditConfirm.text.toString().trim().isEmpty() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please confirm password",Snackbar.LENGTH_LONG).show()
                 false}
-            binding.etEditConfirm.toString().trim() != binding.etEditPassword.text.toString().trim() -> {
-                binding.etEditConfirm.error="* Password Doesn't match"
+            binding.etEditConfirm.text.toString().trim() != binding.etEditPassword.text.toString().trim() -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"password doesn't match",Snackbar.LENGTH_LONG).show()
                 false}
+            !binding.checkAgree.isChecked -> {
+                Snackbar.make(mainActivity.findViewById(android.R.id.content),"please chech the agreement",Snackbar.LENGTH_LONG).show()
+                false
+            }
 
             else -> true
         }
