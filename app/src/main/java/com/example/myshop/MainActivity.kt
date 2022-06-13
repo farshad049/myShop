@@ -2,6 +2,7 @@ package com.example.myshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,6 +11,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myshop.databinding.ActivityMainBinding
+import com.example.myshop.ui.loginAndRegister.AuthViewModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val viewModel:AuthViewModel by viewModels()
+
 
         //enable the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment

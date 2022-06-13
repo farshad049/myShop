@@ -1,12 +1,13 @@
-package com.example.myshop
+package com.example.myshop.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import com.example.myshop.BaseFragment
+import com.example.myshop.R
 import com.example.myshop.databinding.FragmentDashboardBinding
 
 
-class DashboardFragment:BaseFragment(R.layout.fragment_dashboard) {
+class DashboardFragment: BaseFragment(R.layout.fragment_dashboard) {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
