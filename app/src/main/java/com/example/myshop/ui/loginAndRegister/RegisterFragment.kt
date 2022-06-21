@@ -3,31 +3,33 @@ package com.example.myshop.ui.loginAndRegister
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.BaseFragment
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentRegisterBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
+    private lateinit var authViewModel: AuthViewModel
 
-    private val viewModel: AuthViewModel by viewModels()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentRegisterBinding.bind(view)
 
-        auth = Firebase.auth
+        //auth = Firebase.auth
 
         binding.tvLogin.setOnClickListener {
             findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
@@ -100,16 +102,25 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                 return
             }
             else -> {
-                showProgressBar()
-                viewModel.register(email, password)
-                viewModel.userData.observe(viewLifecycleOwner) {
-                    dismissProgressBar()
-                    if (it != null) {
-                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-                    } else {
-                        Toast.makeText(requireContext(), "registration failed", Toast.LENGTH_LONG)
-                            .show()
-                    }
+                    showProgressBar()
+                    authViewModel.register(email,password)
+                    authViewModel.userData.observe(viewLifecycleOwner){
+                        dismissProgressBar()
+                        if (it != null) {
+                            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                        }
+                }
+
+//                showProgressBar()
+//                viewModel.register(email, password)
+//                viewModel.userData.observe(viewLifecycleOwner) {
+//                    dismissProgressBar()
+//                    if (it != null) {
+//                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+//                    } else {
+//                        Toast.makeText(requireContext(), "registration failed", Toast.LENGTH_LONG)
+//                            .show()
+//                    }
 
 //                showProgressBar()
 //                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
@@ -122,7 +133,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 //                    }
 //               }
 
-                }
+
             }
         }
     }

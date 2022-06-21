@@ -2,8 +2,13 @@ package com.example.myshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var authViewModel: AuthViewModel
 
 
 
@@ -28,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel:AuthViewModel by viewModels()
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+
+
 
 
         //enable the nav controller
@@ -45,6 +53,17 @@ class MainActivity : AppCompatActivity() {
         //enable navigation drawer
         findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
 
+//        binding.navView.setNavigationItemSelectedListener {
+//            when(it.itemId){
+//                R.id.logout -> authViewModel.signOut()
+//            }
+//            true
+//        }
+
+        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            authViewModel.signOut()
+            true
+        }
 
 
     }//FUN
@@ -53,6 +72,10 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
 
 

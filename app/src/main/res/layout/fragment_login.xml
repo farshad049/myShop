@@ -69,7 +69,7 @@
             android:id="@+id/etEditEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
+            android:inputType="textEmailAddress"
             android:textColor="?colorOnBackground" />
     </com.google.android.material.textfield.TextInputLayout>
 

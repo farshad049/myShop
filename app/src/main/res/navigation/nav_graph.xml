@@ -15,6 +15,9 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
+            android:id="@+id/action_loginFragment_to_signOutFragment"
+            app:destination="@id/signOutFragment" />
+        <action
             android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment" />
     </fragment>
@@ -36,11 +39,26 @@
         android:id="@+id/forgetPasswordFragment"
         android:name="com.example.myshop.ui.loginAndRegister.ForgetPasswordFragment"
         android:label="reset password"
-        tools:layout="@layout/fragment_forget_password"/>
+        tools:layout="@layout/fragment_forget_password">
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.myshop.ui.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard"/>
+
+    <fragment
+        android:id="@+id/signOutFragment"
+        android:name="com.example.myshop.ui.loginAndRegister.SignOutFragment"
+        android:label="SignOutFragment"
+        tools:layout="@layout/fragmenr_signout">
+        <action
+            android:id="@+id/action_signOutFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+
+    </fragment>
 </navigation>
