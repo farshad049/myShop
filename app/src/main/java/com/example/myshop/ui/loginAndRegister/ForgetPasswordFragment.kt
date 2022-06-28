@@ -14,11 +14,11 @@ import com.example.myshop.databinding.FragmentForgetPasswordBinding
 class ForgetPasswordFragment: BaseFragment(R.layout.fragment_forget_password) {
     private var _binding: FragmentForgetPasswordBinding? = null
     private val binding get() = _binding!!
-    private lateinit var authViewModel: AuthViewModel
+    private lateinit var authViewModel: FireBaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(requireActivity()).get(FireBaseViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,15 +31,25 @@ class ForgetPasswordFragment: BaseFragment(R.layout.fragment_forget_password) {
                 binding.etEmail.error = "* please enter a valid email address"
                 binding.etEditEmail.addTextChangedListener { binding.etEmail.error = null }
             } else {
-              //  showProgressBar()
-                authViewModel.forgotPassword(email)
-                authViewModel.resetPassword.observe(viewLifecycleOwner) {
-                    //dismissProgressBar()
-                    if (it == true) {
-                        Toast.makeText(requireContext(),"reset email hase been sent to ${binding.etEditEmail.text}",Toast.LENGTH_LONG).show()
-                        findNavController().navigate(ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToLoginFragment())
+
+                showProgressBar()
+                auth.sendPasswordResetEmail(email).addOnCompleteListener {
+                    dismissProgressBar()
+                    if (it.isSuccessful){
+                        findNavController().navigateUp()
+                    }else{
+                        Toast.makeText(requireActivity(),it.exception?.message,Toast.LENGTH_LONG).show()
                     }
                 }
+
+//                showProgressBar()
+//                authViewModel.forgotPassword(email)
+//                authViewModel.resetPassword.observe(viewLifecycleOwner) {
+//                    dismissProgressBar()
+//                    if (it == true) {
+//                        findNavController().navigateUp()
+//                    }
+//                }
             }
         }
 

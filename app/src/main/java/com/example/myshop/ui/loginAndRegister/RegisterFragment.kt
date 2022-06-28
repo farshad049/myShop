@@ -3,25 +3,27 @@ package com.example.myshop.ui.loginAndRegister
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.BaseFragment
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentRegisterBinding
+import com.example.myshop.model.User
 import com.google.android.material.snackbar.Snackbar
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     //private lateinit var auth: FirebaseAuth
-    private lateinit var authViewModel: AuthViewModel
+    private lateinit var authViewModel: FireBaseViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(requireActivity()).get(FireBaseViewModel::class.java)
     }
 
 
@@ -102,36 +104,33 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                 return
             }
             else -> {
-                    showProgressBar()
-                    authViewModel.register(email,password)
-                    authViewModel.userData.observe(viewLifecycleOwner){
-                        dismissProgressBar()
-                        if (it != null) {
-                            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-                        }
-                }
-
-//                showProgressBar()
-//                viewModel.register(email, password)
-//                viewModel.userData.observe(viewLifecycleOwner) {
-//                    dismissProgressBar()
-//                    if (it != null) {
-//                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-//                    } else {
-//                        Toast.makeText(requireContext(), "registration failed", Toast.LENGTH_LONG)
-//                            .show()
-//                    }
-
-//                showProgressBar()
-//                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
-//                    dismissProgressBar()
-//                    if (it.isSuccessful){
+//                    showProgressBar()
+//                    authViewModel.register(email,password)
+//                    authViewModel.userData.observe(viewLifecycleOwner){
+//                        dismissProgressBar()
+//                        if (it != null) {
 //                            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-//
-//                    }else{
-//                        Toast.makeText(requireContext(),"registration failed",Toast.LENGTH_LONG).show()
-//                    }
-//               }
+//                        }
+//                }
+
+
+                showProgressBar()
+                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
+                    dismissProgressBar()
+                    if (it.isSuccessful){
+                            val user=User(
+                                id = it.result.user!!.uid,
+                                firstName = name,
+                                lastName = lastName,
+                                email = email,
+                            )
+                        authViewModel.saveUserToDatabase(user)
+
+                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                    }else{
+                        Toast.makeText(requireContext(),"registration failed",Toast.LENGTH_LONG).show()
+                    }
+               }
 
 
             }

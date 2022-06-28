@@ -2,11 +2,6 @@ package com.example.myshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -16,14 +11,17 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myshop.databinding.ActivityMainBinding
-import com.example.myshop.ui.loginAndRegister.AuthViewModel
+import com.example.myshop.ui.loginAndRegister.FireBaseViewModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var authViewModel: AuthViewModel
+    private lateinit var authViewModel: FireBaseViewModel
+
+
+
 
 
 
@@ -34,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(this).get(FireBaseViewModel::class.java)
+
+        Constants.init(this)
 
 
 
@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity() {
 //            true
 //        }
 
-        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
-            authViewModel.signOut()
-            true
-        }
+//        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+//            authViewModel.signOut()
+//            true
+//        }
 
 
     }//FUN

@@ -55,7 +55,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etEmail"
+        android:id="@+id/etLoginEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginTitle">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditEmail"
+            android:id="@+id/etEditLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -74,7 +74,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etPassword"
+        android:id="@+id/etLoginPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,9 +83,9 @@
         android:hint="@string/password"
         app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail">
+        app:layout_constraintTop_toBottomOf="@+id/etLoginEmail">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditPassword"
+            android:id="@+id/etEditLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences"
@@ -97,8 +97,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forget_password"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/etLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
