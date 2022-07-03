@@ -21,8 +21,11 @@
             android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_signOutFragment"
-            app:destination="@id/signOutFragment" />
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
 
     <fragment
@@ -60,4 +63,19 @@
         android:name="com.example.myshop.ui.loginAndRegister.SignOutFragment"
         android:label="SignOutFragment"
         tools:layout="@layout/fragmenr_signout"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myshop.ui.loginAndRegister.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="userDetailInfo"
+            app:argType="com.example.myshop.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_profileFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>

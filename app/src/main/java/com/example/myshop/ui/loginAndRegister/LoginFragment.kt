@@ -8,19 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.BaseFragment
-import com.example.myshop.Constants
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentLoginBinding
-import com.example.myshop.model.User
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import kotlin.math.log
 
 
 class LoginFragment: BaseFragment(R.layout.fragment_login) {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val authViewModel: FireBaseViewModel by viewModels()
+    private val viewModel: FireBaseViewModel by viewModels()
 
 
     //private lateinit var authViewModel: AuthViewModel
@@ -75,12 +72,17 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
                         dismissProgressBar()
                         if (it.isSuccessful){
                                lifecycleScope.launch {
-
-                                   authViewModel.getUser()
-                                   authViewModel.userInfoLiveData.observe(viewLifecycleOwner){it2 ->
-                                   Log.e("dashagh",it2.email) }
+                                   viewModel.getUser()
+                                   viewModel.userInfoLiveData.observe(viewLifecycleOwner){ it2 ->
+                                   Log.e("set user data",it2.email)
+                                       if (it2.profileCompleted==0){
+                                           binding.etEditLoginEmail.text?.clear()
+                                           findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment(it2))
+                                       }else{
+                                           findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
+                                       }
+                                   }
                                 }
-                            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignOutFragment())
                         }else{
                             Toast.makeText(requireContext(),it.exception!!.message.toString(), Toast.LENGTH_LONG).show()
                         }

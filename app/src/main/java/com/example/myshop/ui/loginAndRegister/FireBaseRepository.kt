@@ -1,12 +1,22 @@
 package com.example.myshop.ui.loginAndRegister
 
+import android.app.Activity
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.myshop.Constants
+import com.example.myshop.MainActivity
 import com.example.myshop.model.User
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
+import io.grpc.Context
+import java.net.URL
 
 class FireBaseRepository() {
 
@@ -32,7 +42,7 @@ class FireBaseRepository() {
     }
 
 
-
+    //get user data and save it to shared preferences
     suspend fun getUserDetail(userInfo: MutableLiveData<User>){
         mFireStore.collection(Constants.USERS)
                 //get the user uuid from authenticated user as document
@@ -41,13 +51,34 @@ class FireBaseRepository() {
             .addOnSuccessListener {user->
                 val response=user.toObject(User::class.java)
                 userInfo.postValue(response)
-
                 Constants.sharedPreferences.edit().putString(Constants.LOGGED_IN_USER,"${response!!.firstName} ${response!!.lastName}").apply()
             }
             .addOnFailureListener {
                 Log.e("Error while getting the user information.", it.toString())
             }
     }
+
+
+
+    suspend fun updateUserDetail(userInfo: HashMap<String,Any>):Task<Void>{
+       return mFireStore.collection(Constants.USERS)
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .update(userInfo)
+    }
+
+
+
+      fun uploadImageToCloud(uri: Uri?, fileExtension:String?):StorageTask<UploadTask.TaskSnapshot>{
+        val ref:StorageReference=FirebaseStorage.getInstance().reference
+            .child(FirebaseAuth.getInstance().currentUser!!.uid+Constants.USER_PROFILE_IMAGE+"."+fileExtension) // save file by uuid and const string
+         //take the string internet address of uploaded image
+         return ref.putFile(uri!!)
+
+    }
+
+
+
+
 
 
 }

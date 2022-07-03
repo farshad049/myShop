@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.BaseFragment
+import com.example.myshop.Constants
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmenrSignoutBinding
 
@@ -29,6 +30,7 @@ class SignOutFragment:BaseFragment(R.layout.fragmenr_signout) {
 
        binding.btnSignOut.setOnClickListener {
             auth.signOut()
+          // Constants.sharedPreferences.edit().remove(Constants.LOGGED_IN_USER)
             findNavController().navigateUp()
 
 //
