@@ -13,6 +13,9 @@
     <color name="primaryDarkColor">#8e0000</color>
     <color name="primaryTextColor">#ffffff</color>
 
+    <color name="colorThemePink">#ED2173</color>
+    <color name="colorThemeOrange">#F4442d</color>
+
 
     <color name="blue_gray_50">#ECEFF1</color>
     <color name="blue_gray_100">#CFD8DC</color>

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.myshop.Constants
 import com.example.myshop.model.User
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -32,7 +33,7 @@ class FireBaseRepository() {
     }
 
 
-
+    //get user data and save it to shared preferences
     suspend fun getUserDetail(userInfo: MutableLiveData<User>){
         mFireStore.collection(Constants.USERS)
                 //get the user uuid from authenticated user as document
@@ -41,12 +42,17 @@ class FireBaseRepository() {
             .addOnSuccessListener {user->
                 val response=user.toObject(User::class.java)
                 userInfo.postValue(response)
-
                 Constants.sharedPreferences.edit().putString(Constants.LOGGED_IN_USER,"${response!!.firstName} ${response!!.lastName}").apply()
             }
             .addOnFailureListener {
                 Log.e("Error while getting the user information.", it.toString())
             }
+    }
+
+    suspend fun updateUserDetail(userInfo: HashMap<String,Any>):Task<Void>{
+       return mFireStore.collection(Constants.USERS)
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .update(userInfo)
     }
 
 

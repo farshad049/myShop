@@ -17,7 +17,10 @@ class DashboardFragment: BaseFragment(R.layout.fragment_dashboard) {
         _binding= FragmentDashboardBinding.bind(view)
 
         //take logged user from sharedPref and set the default to guest
+        //val loggedUser=Constants.sharedPreferences.getString(Constants.LOGGED_IN_USER,"guest")
+
         val loggedUser=Constants.sharedPreferences.getString(Constants.LOGGED_IN_USER,"guest")
+
         binding.tv.text="Hello $loggedUser"
 
 

@@ -3,22 +3,26 @@ package com.example.myshop
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.example.myshop.databinding.ActivityMainBinding
-import com.example.myshop.ui.loginAndRegister.FireBaseViewModel
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var authViewModel: FireBaseViewModel
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    //private lateinit var viewModel: FireBaseViewModel
+//    val sharedPrefs: SharedPreferences by lazy {
+//        getSharedPreferences("${BuildConfig.APPLICATION_ID}_shared_preferences",Context.MODE_PRIVATE)
+//
+//    }
+
+
 
 
 
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authViewModel = ViewModelProvider(this).get(FireBaseViewModel::class.java)
+        //viewModel = ViewModelProvider(this).get(FireBaseViewModel::class.java)
 
         Constants.init(this)
 
@@ -53,29 +57,36 @@ class MainActivity : AppCompatActivity() {
         //enable navigation drawer
         findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
 
-//        binding.navView.setNavigationItemSelectedListener {
-//            when(it.itemId){
-//                R.id.logout -> authViewModel.signOut()
-//            }
-//            true
-//        }
 
-//        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
-//            authViewModel.signOut()
-//            true
-//        }
+        //set drawer on click listener fir sign out button
+        binding.navView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.logout ->{
+                    auth.signOut()
+                    Constants.sharedPreferences.edit().clear().apply()
+                    true
+                }
+            }
+            NavigationUI.onNavDestinationSelected(it, navController)
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
 
 
     }//FUN
+
 
     //enable back button on action bar
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        return super.onCreateOptionsMenu(menu)
-//    }
+
+
+
+
+
 
 
 
