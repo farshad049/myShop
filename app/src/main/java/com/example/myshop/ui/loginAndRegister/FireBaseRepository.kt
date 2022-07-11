@@ -58,6 +58,12 @@ class FireBaseRepository() {
             }
     }
 
+    suspend fun updateUserDetail(userInfo: HashMap<String,Any>):Task<Void>{
+       return mFireStore.collection(Constants.USERS)
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .update(userInfo)
+    }
+
 
 
     suspend fun updateUserDetail(userInfo: HashMap<String,Any>):Task<Void>{
